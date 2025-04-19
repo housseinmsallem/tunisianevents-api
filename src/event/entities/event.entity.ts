@@ -12,6 +12,8 @@ export class Event {
   @Column()
   name: string;
   @Column()
+  description: string;
+  @Column()
   city: string;
   @Column()
   location: string;

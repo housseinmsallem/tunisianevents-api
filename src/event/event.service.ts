@@ -27,13 +27,28 @@ export class EventService {
   remove(id: number) {
     return this.eventRepository.delete({ id });
   }
+  async findSome(count: number) {
+    const query = this.datasource
+      .getRepository(Event)
+      .createQueryBuilder()
+      .skip(count ? count - 10 : 10)
+      .take(count | 10);
+
+    return await query.getMany();
+  }
   async findFilteredEvents(filterDto: filterEventDto): Promise<Event[]> {
-    const { location, type, dateAfter, sortBy } = filterDto;
+    const { name, location, city, type, dateAfter, sortBy } = filterDto;
     const query = this.datasource
       .getRepository(Event)
       .createQueryBuilder('event');
+    if (name) {
+      query.andWhere('event.name ILIKE :name', { name: `%${name}%` });
+    }
     if (location) {
       query.andWhere('event.location = :location', { location });
+    }
+    if (city) {
+      query.andWhere('event.city = :city', { city });
     }
     if (type) {
       query.andWhere('event.type = :type', { type });

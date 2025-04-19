@@ -97,3 +97,85 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+Core API Features
+
+Complete CRUD operations for events
+
+Create, read, update, delete events
+Batch operations for multiple events
+
+Advanced filtering and search
+
+Filter by date range, location, category, price range
+Full-text search for event titles and descriptions
+Pagination and sorting options
+
+User authentication and authorization
+
+JWT or OAuth-based authentication
+Role-based permissions (admin, organizer, regular user)
+User profiles and preferences
+
+Media handling
+
+Image upload and storage for event photos
+Optional: video support
+
+Categories and tagging
+
+Event categorization system
+Tag-based filtering
+
+Geolocation features
+
+Store and query events by geographical location
+Distance-based search ("events within X miles")
+Map integration support
+
+Ticketing and registration
+
+Ticket types and pricing tiers
+Registration/RSVP functionality
+Capacity management
+
+Additional Functionality
+
+Reviews and ratings
+
+Allow users to rate and review events
+
+Notification system
+
+Email notifications for event updates
+Optional: Push notifications
+
+Analytics endpoints
+
+Event popularity metrics
+View counts and engagement stats
+
+Social features
+
+Sharing functionality
+Comments/discussion
+
+Calendar integration
+
+iCal/Google Calendar export options
+Recurring events support
+
+Payment processing (if selling tickets)
+
+Integration with payment gateways
+Order history and receipts
+
+Internationalization
+
+Multi-language support
+Timezone handling
+
+Documentation
+
+OpenAPI/Swagger documentation
+API versioning
