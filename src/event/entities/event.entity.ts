@@ -11,7 +11,7 @@ export class Event {
   id: number;
   @Column()
   name: string;
-  @Column()
+  @Column({ nullable: true })
   description: string;
   @Column()
   city: string;
