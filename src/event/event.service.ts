@@ -28,11 +28,7 @@ export class EventService {
     return this.eventRepository.delete({ id });
   }
   async findSome(count: number) {
-    const query = this.datasource
-      .getRepository(Event)
-      .createQueryBuilder()
-      .skip(count ? count - 10 : 10)
-      .take(count | 10);
+    const query = this.datasource.getRepository(Event).createQueryBuilder();
 
     return await query.getMany();
   }
