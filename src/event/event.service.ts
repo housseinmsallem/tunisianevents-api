@@ -24,6 +24,7 @@ export class EventService {
   update(id: number, updateEventDto: UpdateEventDto) {
     return this.eventRepository.update({ id }, updateEventDto);
   }
+
   remove(id: number) {
     return this.eventRepository.delete({ id });
   }
@@ -56,5 +57,26 @@ export class EventService {
       query.orderBy(`event.${sortBy} = :location`, sortBy);
     }
     return await query.getMany();
+  }
+  async countEvents(): Promise<number> {
+    return this.eventRepository.count();
+  }
+
+  async countByCategory(): Promise<any> {
+    return this.eventRepository
+      .createQueryBuilder('event')
+      .select('event.category')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy('event.category')
+      .getRawMany();
+  }
+
+  async countByCity(): Promise<any> {
+    return this.eventRepository
+      .createQueryBuilder('event')
+      .select('event.city')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy('event.city')
+      .getRawMany();
   }
 }

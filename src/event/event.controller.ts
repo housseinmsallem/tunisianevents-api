@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -32,17 +33,25 @@ export class EventController {
     return this.eventService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  @Get('analytics/overview')
+  async getOverview() {
+    const totalEvents = await this.eventService.countEvents();
+    const categories = await this.eventService.countByCategory();
+    const cities = await this.eventService.countByCity();
+    return { totalEvents, categories, cities };
+  }
+  // @UseGuards(AuthGuard)
   @Post()
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventService.create(createEventDto);
   }
-  @UseGuards(AuthGuard)
-  @Patch(':id')
+  // @UseGuards(AuthGuard)
+
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventService.update(+id, updateEventDto);
   }
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventService.remove(+id);
