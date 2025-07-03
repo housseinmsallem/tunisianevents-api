@@ -8,6 +8,7 @@ import { Event } from './event/entities/event.entity';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
+import { OrganisationModule } from './organisation/organisation.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { AdminModule } from './admin/admin.module';
     EventModule,
     AuthModule,
     AdminModule,
+    OrganisationModule,
 
   ],
   controllers: [AppController],
