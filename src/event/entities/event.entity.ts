@@ -25,4 +25,6 @@ export class Event {
   organisation: string;
   @Column()
   category: string;
+  @Column({ nullable: true })
+  price: number;
 }

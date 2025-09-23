@@ -2,9 +2,7 @@ import { CreateEventDto } from './../event/dto/create-event.dto';
 import {
   Controller,
   Get,
-
   Param,
-
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 

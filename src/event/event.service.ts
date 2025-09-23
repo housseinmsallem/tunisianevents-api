@@ -79,4 +79,12 @@ export class EventService {
       .groupBy('event.city')
       .getRawMany();
   }
+  async createMany(createManyEventDto: CreateEventDto[]) {
+    return this.eventRepository
+      .createQueryBuilder('event')
+      .insert()
+      .into(Event)
+      .values(createManyEventDto)
+      .execute();
+  }
 }

@@ -10,7 +10,6 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { OrganisationModule } from './organisation/organisation.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,7 +18,7 @@ import { OrganisationModule } from './organisation/organisation.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '00874805',
+      password: 'postgres',
       database: 'events',
       autoLoadEntities: true,
       entities: [Event],
@@ -29,7 +28,6 @@ import { OrganisationModule } from './organisation/organisation.module';
     AuthModule,
     AdminModule,
     OrganisationModule,
-
   ],
   controllers: [AppController],
   providers: [AppService],

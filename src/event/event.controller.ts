@@ -46,12 +46,16 @@ export class EventController {
     return this.eventService.create(createEventDto);
   }
   // @UseGuards(AuthGuard)
-
+  @Post('multiple')
+  createMany(@Body() createEventDto: CreateEventDto[]) {
+    return this.eventService.createMany(createEventDto);
+  }
+  // @UseGuards(AuthGuard)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventService.update(+id, updateEventDto);
   }
-  // @UseGuards(AuthGuard)
+  //  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventService.remove(+id);
