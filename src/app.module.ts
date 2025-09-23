@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { OrganisationModule } from './organisation/organisation.module';
+import { UsersModule } from './users/users.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { OrganisationModule } from './organisation/organisation.module';
     AuthModule,
     AdminModule,
     OrganisationModule,
+    UsersModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

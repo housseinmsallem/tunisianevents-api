@@ -15,6 +15,7 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { filterEventDto } from './dto/filter-event.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/roles/roles.decorator';
 
 @Controller('event')
 export class EventController {
@@ -33,6 +34,8 @@ export class EventController {
     return this.eventService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard)
+  @Roles(['admin', 'org'])
   @Get('analytics/overview')
   async getOverview() {
     const totalEvents = await this.eventService.countEvents();
@@ -40,7 +43,8 @@ export class EventController {
     const cities = await this.eventService.countByCity();
     return { totalEvents, categories, cities };
   }
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin', 'org'])
   @Post()
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventService.create(createEventDto);
