@@ -5,4 +5,6 @@ export class filterEventDto {
   type?: string;
   dateAfter?: string;
   sortBy?: 'ASC' | 'DESC';
+  minPrice?: number;
+  maxPrice?: number;
 }

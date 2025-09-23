@@ -20,7 +20,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class EventController {
   constructor(private readonly eventService: EventService) {}
   @Get()
-  findSome(@Query() limit: number) {
+  findSome(@Query('limit') limit: number) {
     return this.eventService.findSome(limit);
   }
 

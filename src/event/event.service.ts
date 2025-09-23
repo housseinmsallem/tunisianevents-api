@@ -28,13 +28,23 @@ export class EventService {
   remove(id: number) {
     return this.eventRepository.delete({ id });
   }
-  async findSome(count: number) {
-    const query = this.datasource.getRepository(Event).createQueryBuilder();
-
-    return await query.getMany();
+  findSome(count: number) {
+    return this.eventRepository
+      .createQueryBuilder('event')
+      .take(count)
+      .getMany();
   }
   async findFilteredEvents(filterDto: filterEventDto): Promise<Event[]> {
-    const { name, location, city, type, dateAfter, sortBy } = filterDto;
+    const {
+      name,
+      location,
+      city,
+      type,
+      dateAfter,
+      sortBy,
+      minPrice,
+      maxPrice,
+    } = filterDto;
     const query = this.datasource
       .getRepository(Event)
       .createQueryBuilder('event');
@@ -53,9 +63,16 @@ export class EventService {
     if (dateAfter) {
       query.andWhere('event.date > :dateA', { dateAfter });
     }
+    if (minPrice && minPrice < maxPrice) {
+      query.andWhere('event.event.price > :minPrice', { minPrice });
+    }
+    if (maxPrice && minPrice < maxPrice) {
+      query.andWhere('event.event.price < :maxPrice', { maxPrice });
+    }
     if (sortBy) {
       query.orderBy(`event.${sortBy} = :location`, sortBy);
     }
+
     return await query.getMany();
   }
   async countEvents(): Promise<number> {
