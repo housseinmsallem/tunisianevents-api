@@ -1,8 +1,10 @@
+import { Media } from 'src/media/entities/media.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 @Entity()
@@ -27,4 +29,6 @@ export class Event {
   category: string;
   @Column({ nullable: true })
   price: number;
+  @OneToMany(() => Media, (media) => media.event)
+  media: Media[];
 }

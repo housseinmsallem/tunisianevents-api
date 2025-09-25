@@ -11,6 +11,9 @@ import { AdminModule } from './admin/admin.module';
 import { OrganisationModule } from './organisation/organisation.module';
 import { UsersModule } from './users/users.module';
 import { MediaModule } from './media/media.module';
+import { User } from './users/entities/user.entity';
+import { Organisation } from './organisation/entities/organisation.entity';
+import { Media } from './media/entities/media.entity';
 
 @Module({
   imports: [
@@ -23,7 +26,7 @@ import { MediaModule } from './media/media.module';
       password: 'postgres',
       database: 'events',
       autoLoadEntities: true,
-      entities: [Event],
+      entities: [Event, User, Media, Organisation],
       synchronize: true,
     }),
     EventModule,

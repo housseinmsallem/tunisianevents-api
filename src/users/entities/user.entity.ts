@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Media } from 'src/media/entities/media.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,5 +10,6 @@ export class User {
   password: string;
   @Column({ unique: true })
   email: string;
-  
+  @OneToMany(() => Media, (media) => media.user)
+  media: Media[];
 }
