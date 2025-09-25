@@ -1,5 +1,4 @@
 export class CreateEventDto {
-  id: number;
   name: string;
   description: string;
   city: string;
@@ -8,4 +7,5 @@ export class CreateEventDto {
   duration: string;
   organisation: string;
   category: string;
+  tags: string[];
 }

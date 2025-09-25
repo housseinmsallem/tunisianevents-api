@@ -14,6 +14,7 @@ import { MediaModule } from './media/media.module';
 import { User } from './users/entities/user.entity';
 import { Organisation } from './organisation/entities/organisation.entity';
 import { Media } from './media/entities/media.entity';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { Media } from './media/entities/media.entity';
     OrganisationModule,
     UsersModule,
     MediaModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

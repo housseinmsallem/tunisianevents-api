@@ -1,8 +1,11 @@
 import { Media } from 'src/media/entities/media.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -31,4 +34,7 @@ export class Event {
   price: number;
   @OneToMany(() => Media, (media) => media.event)
   media: Media[];
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
 }
