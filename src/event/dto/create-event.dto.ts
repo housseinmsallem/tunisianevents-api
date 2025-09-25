@@ -7,5 +7,5 @@ export class CreateEventDto {
   duration: string;
   organisation: string;
   category: string;
-  tags: string[];
+  tags?: string[];
 }
