@@ -1,3 +1,4 @@
+import { TagsService } from './../tags/tags.service';
 import { Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -5,15 +6,35 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Event } from './entities/event.entity';
 import { filterEventDto } from './dto/filter-event.dto';
+import { Tag } from 'src/tags/entities/tag.entity';
+import { AddTagToEventDto } from './dto/add-tag-event.dto';
+
 @Injectable()
 export class EventService {
   constructor(
     @InjectRepository(Event)
     private eventRepository: Repository<Event>,
+    @InjectRepository(Tag)
+    private tagsRepository: Repository<Tag>,
     private datasource: DataSource,
   ) {}
-  create(createEventDto: CreateEventDto) {
-    return this.eventRepository.save(createEventDto);
+  async create(createEventDto: CreateEventDto) {
+    let tags = [];
+    if (createEventDto.tagIds) {
+      tags = await Promise.all(
+        createEventDto.tagIds.map(
+          async (tagId: number) =>
+            await this.tagsRepository.findOneBy({ id: tagId }),
+        ),
+      );
+      tags = tags.filter((tag) => tag);
+      console.log(tags);
+    }
+    const event = this.eventRepository.create({
+      ...createEventDto,
+      tags,
+    });
+    return this.eventRepository.save(event);
   }
   findAll() {
     return this.eventRepository.find();
@@ -44,10 +65,13 @@ export class EventService {
       sortBy,
       minPrice,
       maxPrice,
+      tags,
     } = filterDto;
+    console.log(filterDto);
     const query = this.datasource
       .getRepository(Event)
       .createQueryBuilder('event');
+
     if (name) {
       query.andWhere('event.name ILIKE :name', { name: `%${name}%` });
     }
@@ -61,18 +85,22 @@ export class EventService {
       query.andWhere('event.type = :type', { type });
     }
     if (dateAfter) {
-      query.andWhere('event.date > :dateA', { dateAfter });
+      query.andWhere('event.date > :dateAfter', { dateAfter });
     }
-    if (minPrice && minPrice < maxPrice) {
-      query.andWhere('event.event.price > :minPrice', { minPrice });
+    if (minPrice) {
+      query.andWhere('event.price > :minPrice', { minPrice });
     }
-    if (maxPrice && minPrice < maxPrice) {
-      query.andWhere('event.event.price < :maxPrice', { maxPrice });
+    if (maxPrice) {
+      query.andWhere('event.price < :maxPrice', { maxPrice });
     }
     if (sortBy) {
       query.orderBy(`event.${sortBy} = :location`, sortBy);
     }
-
+    if (tags) {
+      query.leftJoinAndSelect('event.tags', 'tags');
+      query.andWhere('tags.name IN (:...tags)', { tags });
+    }
+    console.log(tags);
     return await query.getMany();
   }
   async countEvents(): Promise<number> {
@@ -103,5 +131,26 @@ export class EventService {
       .into(Event)
       .values(createManyEventDto)
       .execute();
+  }
+
+  async addTagToEvent(addTagToEventDto: AddTagToEventDto) {
+    let tags = await Promise.all(
+      addTagToEventDto.tagIds.map(
+        async (tagId: number) =>
+          await this.tagsRepository.findOneBy({ id: tagId }),
+      ),
+    );
+    tags = tags.filter((tag) => tag);
+    console.log(tags);
+    let event = await this.eventRepository.findOne({
+      where: { id: addTagToEventDto.eventId },
+      relations: ['tags'],
+    });
+    if (!event) {
+      throw new Error('Event Not Found');
+    }
+    event.tags = [...(event.tags || []), ...tags];
+    await this.eventRepository.save(event);
+    return event;
   }
 }

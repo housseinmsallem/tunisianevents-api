@@ -1,3 +1,5 @@
+import { Tag } from 'src/tags/entities/tag.entity';
+
 export class CreateEventDto {
   name: string;
   description: string;
@@ -7,5 +9,5 @@ export class CreateEventDto {
   duration: string;
   organisation: string;
   category: string;
-  tags?: string[];
+  tagIds: number[];
 }

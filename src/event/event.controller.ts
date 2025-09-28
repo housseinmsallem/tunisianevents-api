@@ -16,6 +16,7 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { filterEventDto } from './dto/filter-event.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
+import { AddTagToEventDto } from './dto/add-tag-event.dto';
 
 @Controller('event')
 export class EventController {
@@ -26,7 +27,7 @@ export class EventController {
   }
 
   @Get('filtered')
-  async findFilteredEvents(@Query() filterDto: filterEventDto) {
+  async findFilteredEvents(@Body() filterDto: filterEventDto) {
     return await this.eventService.findFilteredEvents(filterDto);
   }
   @Get(':id')
@@ -43,8 +44,8 @@ export class EventController {
     const cities = await this.eventService.countByCity();
     return { totalEvents, categories, cities };
   }
-  @UseGuards(AuthGuard)
-  @Roles(['admin', 'org'])
+  // @UseGuards(AuthGuard)
+  // @Roles(['admin', 'org'])
   @Post()
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventService.create(createEventDto);
@@ -53,6 +54,10 @@ export class EventController {
   @Post('multiple')
   createMany(@Body() createEventDto: CreateEventDto[]) {
     return this.eventService.createMany(createEventDto);
+  }
+  @Post('add-tag-to-event')
+  addTagToEvent(@Body() addTagToEvent: AddTagToEventDto) {
+    return this.eventService.addTagToEvent(addTagToEvent);
   }
   // @UseGuards(AuthGuard)
   @Put(':id')

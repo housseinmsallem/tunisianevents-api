@@ -7,4 +7,5 @@ export class filterEventDto {
   sortBy?: 'ASC' | 'DESC';
   minPrice?: number;
   maxPrice?: number;
+  tags?: string[];
 }

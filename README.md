@@ -125,7 +125,10 @@ Optional: video support
 Categories and tagging
 
 Event categorization system
+
 Tag-based filtering
+
+---
 
 Geolocation features
 

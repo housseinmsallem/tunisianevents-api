@@ -32,6 +32,8 @@ export class Event {
   category: string;
   @Column({ nullable: true })
   price: number;
+  @Column()
+  isSellingOnlineTickets: boolean;
   @OneToMany(() => Media, (media) => media.event)
   media: Media[];
   @ManyToMany(() => Tag)

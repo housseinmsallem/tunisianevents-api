@@ -30,4 +30,5 @@ export class TagsService {
   remove(id: number) {
     return this.tagRepository.delete(id);
   }
+  
 }
